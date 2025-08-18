@@ -277,6 +277,7 @@ export default function ViewStudents() {
           sortOptions={[
             { key: "name", label: "Name" },
             { key: "studentId", label: "Roll Number" },
+            { key: "schoolname", label: "School Name" }
           ]}
           onSortChange={setSortBy}
         />

@@ -30,7 +30,7 @@ export default function SchoolLayout({
     }, [pathname]);
 
     return (
-        <div className='max-w-6xl mx-auto px-4 pt-10'>
+        <div className='max-w-7xl mx-auto px-4 pt-10'>
             <CardHeader className='p-0'>
                 <CardTitle>School dashboard</CardTitle>
                 <CardDescription>Manage students and school data with comprehensive forms and data views</CardDescription>

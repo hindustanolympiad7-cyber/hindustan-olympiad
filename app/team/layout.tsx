@@ -33,7 +33,7 @@ export default function TeamLayout({
 
 
     return (
-        <div className='max-w-6xl mx-auto px-4 pt-10'>
+        <div className='max-w-7xl mx-auto px-4 pt-10'>
             <CardHeader className='p-0'>
                 <CardTitle>HO Team dashboard</CardTitle>
                 <CardDescription>Manage schools and students with comprehensive forms and data views</CardDescription>

@@ -186,36 +186,42 @@ export default function ViewSchools() {
       setLoading(false);
     }
   };
-const fetchActivityLogs = async (id: string) => {
-    setShowLogs(true);
-    try {
-      const res = await fetch(
-        `/api/activity-logs?id=${encodeURIComponent(id)}`,
-        {
+  const fetchActivityLogs = async (schoolId?: string, studentId?: string) => {
+      setShowLogs(true);
+
+      const user = JSON.parse(localStorage.getItem("user") || "null");
+      console.log("USERR ::", user);
+      let id = user?._id.toString();
+      console.log("USERR IDD::", id);
+
+      const params = new URLSearchParams({ id });
+      if (schoolId) params.append("schoolId", schoolId);
+      if (studentId) params.append("studentId", studentId);
+
+      try {
+        const res = await fetch(`/api/activity-logs?${params.toString()}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch activity logs");
         }
-      );
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch activity logs");
-        console.log(!res);
+        const data = await res.json();
+
+        const formattedLogs = data?.map((log: any) => {
+          const date = new Date(log?.createdAt).toLocaleString();
+          return `[${date}] ${log?.action} - ${log?.description}`;
+        });
+
+        setActivityLogs(formattedLogs);
+      } catch (error) {
+        console.error("Error fetching activity logs:", error);
       }
-
-      const data = await res.json();
-
-      const formattedLogs = data?.map((log: any) => {
-        const date = new Date(log?.createdAt).toLocaleString();
-        return `[${date}] ${log?.action} - ${log?.description}`;
-      });
-
-      setActivityLogs(formattedLogs);
-    } catch (error) {
-      console.error("Error fetching activity logs:", error);
-    }
-  };
+    };
   const onPageChange = (page: number) => fetchSchools(page);
   const onSearchChange = (value: string) => setSearch(value);
   const onFiltersChange = (value: Record<string, string>) => setFilters(value);
@@ -636,7 +642,10 @@ const fetchActivityLogs = async (id: string) => {
                             variant="outline"
                             size="sm"
                             onClick={() =>
-                              fetchActivityLogs(String(school?.schoolId))
+                              fetchActivityLogs(
+                                String(school?.schoolId),
+                                undefined
+                              )
                             }
                             title="Activity Logs"
                           >
