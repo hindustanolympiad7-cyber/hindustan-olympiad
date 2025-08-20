@@ -14,6 +14,7 @@ import SearchAndFilter from "@/components/search-and-filter"
 import { useToast } from "@/hooks/use-toast"
 import { useSearchParams } from "next/navigation"
 import ActivityLogDialog from "@/components/ActivityLogs";
+import { Badge } from "@/components/ui/badge"
 
 const constantFilters = [
   {
@@ -308,7 +309,10 @@ export default function ViewStudents() {
                         {/* Serial No calculation: (current page - 1) * 10 + idx + 1 */}
                         {(page - 1) * 10 + idx + 1}
                     </TableCell>
-                    <TableCell className="font-medium">{student.name}</TableCell>
+                    <TableCell className="font-medium">
+                      <Badge variant="outline" className="border-transparent px-0 chota-font">System added student</Badge>
+                      {student.name}
+                    </TableCell>
                     <TableCell>{student.class}</TableCell>
                     <TableCell>{student.section}</TableCell>
                     <TableCell>{student.gender}</TableCell>
@@ -336,6 +340,7 @@ export default function ViewStudents() {
                           size="sm"
                           onClick={() => setDeletingStudent(student)}
                           title="Delete Student"
+                          disabled
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

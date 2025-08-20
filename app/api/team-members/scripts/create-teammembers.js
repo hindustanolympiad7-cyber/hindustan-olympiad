@@ -2,7 +2,7 @@ const axios = require("axios");
 
 const teamMembers = [
   // { name: "Rajeev Kumar", email: "rajeev.kumar1@livehindustan.com", phone: "9718101700", region: "1,2,3,4,5", role: "admin" }, // East UP
-  { name: "Master", email: "xyz@gmail.com", phone: "9643583343", region: "1", district: "1-02", role: "finance" },
+  { name: "Manish Shukla", email: "Connextechnmedia@gmail.com", phone: "9873478439", region: "1,2,3,4,5", role: "finance" },
 
 ];
 

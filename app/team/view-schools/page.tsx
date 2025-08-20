@@ -611,6 +611,7 @@ export default function ViewSchools() {
                             size="sm"
                             onClick={() => setDeletingSchool(school)}
                             title="Delete School"
+                            disabled
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>

@@ -14,6 +14,10 @@ html {
         text-wrap: balance;
     }
 }
+.chota-font{
+  font-size: 10px !important;
+  color: green;
+}
 /* In your global styles or tailwind.css */
 .scrollbar-none {
   scrollbar-width: none; /* Firefox */

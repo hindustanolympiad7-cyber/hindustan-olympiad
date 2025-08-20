@@ -147,7 +147,7 @@ const districts = [
   { value: "130", label: "Sambhal" },
   { value: "131", label: "Sant Kabir Nagar" },
   { value: "132", label: "Saraikela-Kharsawan" },
-  { value: "133", label: "Saraswat" },
+  { value: "133", label: "Shravasti" },
   { value: "134", label: "Shahjahanpur" },
   { value: "135", label: "Shamli" },
   { value: "136", label: "Sheikhpura" },

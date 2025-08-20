@@ -7,13 +7,22 @@ connectDB().catch(console.error);
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    console.log("Incoming body:", body); // <== log this
+    console.log("Incoming body:", body);
+
     const {
       name,
       district,
       phoneNumber,
       schoolName,
       class: studentClass,
+      section,
+      gender,
+      stream,
+      parentName,
+      parentContact,
+      schoolBranch,
+      schoolAddress,
+      region,
     } = body;
 
     // Validate required fields
@@ -22,7 +31,15 @@ export async function POST(request: NextRequest) {
       !district ||
       !phoneNumber ||
       !schoolName ||
-      !studentClass
+      !studentClass ||
+      !section ||
+      !gender ||
+      (["11", "12"].includes(studentClass) && !stream) ||
+      !parentName ||
+      !parentContact ||
+      !schoolBranch ||
+      !schoolAddress ||
+      !region
     ) {
       return NextResponse.json(
         { error: "All fields are required" },
@@ -30,11 +47,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate phone number format
+    // Validate phone numbers
     const phoneRegex = /^\d{10}$/;
-    if (!phoneRegex.test(phoneNumber)) {
+    if (!phoneRegex.test(phoneNumber) || !phoneRegex.test(parentContact)) {
       return NextResponse.json(
-        { error: "Invalid student phone number" },
+        { error: "Invalid phone number" },
         { status: 400 }
       );
     }
@@ -46,6 +63,14 @@ export async function POST(request: NextRequest) {
       phoneNumber,
       schoolName,
       class: studentClass,
+      section,
+      gender,
+      stream: ["11", "12"].includes(studentClass) ? stream : "",
+      parentName,
+      parentContact,
+      schoolBranch,
+      schoolAddress,
+      region,
     });
 
     return NextResponse.json(
