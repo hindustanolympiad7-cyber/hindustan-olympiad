@@ -262,6 +262,7 @@ export async function POST(req: NextRequest) {
         // Use region + district (7-digit pattern)
         payload.schoolId = await generateSchoolId(payload.region, payload.district);
         payload.createdBy = userId;
+        payload.addedBy = userId;
         payload.createdAt = new Date();
         payload.studentsCount = 0;
         payload.paymentVerification = 0;

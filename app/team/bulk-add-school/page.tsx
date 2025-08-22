@@ -110,6 +110,11 @@ useEffect(() => {
       error("No valid schools to save", { position: "top-right" })
       return
     }
+    // Add addedBy to each school
+    const schoolsWithAddedBy = validSchools.map(school => ({
+      ...school,
+      addedBy: user?._id || "",
+    }));
 
     const res = await fetch("/api/schools/bulk", {
       method: "POST",
@@ -117,7 +122,7 @@ useEffect(() => {
         "Content-Type": "application/json",
         authorization: `${JSON.parse(localStorage.getItem("user") || "{}")._id}`
       },
-      body: JSON.stringify({ schools: validSchools }),
+      body: JSON.stringify({ schools: schoolsWithAddedBy }),
     })
 
     const data = await res.json()
