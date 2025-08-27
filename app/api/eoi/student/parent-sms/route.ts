@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
             apikey: apiKey,
             type: "normal",
             pe_id: "1601100000000000354",
-            template_id: "1107175283020045746", // 👈 parent SMS ka DLT template_id
+            template_id: "1107175612223038531", // 👈 parent SMS ka DLT template_id
             to: phoneNumber,
             tm_id: "1702158080740553305",       // 👈 parent SMS ka DLT tm_id
     });

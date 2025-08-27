@@ -119,6 +119,7 @@ export default function StudentRegistrationPage() {
         success("Registration successful!", { position: "top-right", duration: 2000 });
         const data = await res.json();
         const studentId = data.student.studentId;
+        const { parentContact } = studentForm;
         setStudentForm({
           name: "",
           class: "",
@@ -136,7 +137,7 @@ export default function StudentRegistrationPage() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              phoneNumber: studentForm.parentContact,   // 👈 parent ka number
+              phoneNumber: parentContact,   // 👈 parent ka number
               studentId: studentId // 👈 register ke baad jo ID generate hui
             }),
           });
