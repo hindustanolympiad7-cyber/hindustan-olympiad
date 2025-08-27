@@ -18,7 +18,7 @@ const panelData = [
     title: "All India Toppers",
     text: (
       <>
-        Top 3 performers of each class at National level will win Prizes worth Rs 5,100, Rs 11,000 and Rs 21,000
+        <strong>Top 3</strong> performers of each class will win <strong> Latops ,</strong> <strong> Tablets </strong>and <strong> Smart phones </strong> respectively
       </>
     ),
   },
@@ -27,7 +27,8 @@ const panelData = [
     title: "Regional Toppers",
     text: (
       <>
-        Prizes worth Rs.3,100, Rs.4,100 and Rs.5,100 for top 3 state toppers in every class and certificate
+        Top <strong> 3 </strong> performers of each class will recieve certificates,  assessment reports and prizes worth <strong> Rs.5100,</strong> <strong>Rs.4100,</strong> <strong> Rs
+3100 </strong>
       </>
     ),
   },
@@ -36,7 +37,8 @@ const panelData = [
     title: "District Toppers",
     text: (
       <>
-        Prizes worth Rs.1,100, Rs.2,100 and Rs.3,100 for top 3 district toppers in every class and certificate
+        Top <strong> 3 </strong> performers of each class will recieve certificates,  assessment reports and prizes worth <strong>Rs.3100,</strong> <strong>Rs.2100,</strong> <strong>Rs
+1100</strong>
       </>
     ),
   },
