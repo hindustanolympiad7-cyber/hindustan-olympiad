@@ -51,7 +51,7 @@ export const districts = {
     { value: "39", label: "Pratapgarh" },
     { value: "40", label: "Rae Bareli" },
     { value: "41", label: "Sant Kabir Nagar" },
-    { value: "42", label: "Saraswat" },
+    { value: "42", label: "Shravasti" },
     { value: "43", label: "Siddhartha nagar" },
     { value: "44", label: "Sitapur" },
     { value: "45", label: "Sonbhadra" },

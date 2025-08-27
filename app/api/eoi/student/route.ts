@@ -1,18 +1,65 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/utils/config/dbConfig";
 import { EoiStudent } from "@/utils/models/eoistudent";
+import { generateStudentId } from "@/utils/models/generateStudentId";
 
 connectDB().catch(console.error);
 
+// ========== GET All Students ==========
+export async function GET(request: NextRequest) {
+  try {
+    await connectDB();
+
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "10");
+    const query = searchParams.get("query") || "";
+    const region = searchParams.get("region") || "";
+    const district = searchParams.get("district") || "";
+
+    const filter: any = {};
+
+    if (query) {
+      filter.$or = [
+        { name: { $regex: query, $options: "i" } },
+        { schoolName: { $regex: query, $options: "i" } },
+        { parentName: { $regex: query, $options: "i" } },
+      ];
+    }
+
+    if (region) filter.region = region;
+    if (district) filter.district = district;
+
+    const total = await EoiStudent.countDocuments(filter);
+    const students = await EoiStudent.find(filter)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    return NextResponse.json({
+      students,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    });
+  } catch (error) {
+    console.error("Error fetching students:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+// ========== POST (Register Student) ==========
 export async function POST(request: NextRequest) {
   try {
+    await connectDB();
     const body = await request.json();
-    console.log("Incoming body:", body);
 
     const {
       name,
       district,
-      phoneNumber,
       schoolName,
       class: studentClass,
       section,
@@ -25,11 +72,9 @@ export async function POST(request: NextRequest) {
       region,
     } = body;
 
-    // Validate required fields
     if (
       !name ||
       !district ||
-      !phoneNumber ||
       !schoolName ||
       !studentClass ||
       !section ||
@@ -47,20 +92,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate phone numbers
     const phoneRegex = /^\d{10}$/;
-    if (!phoneRegex.test(phoneNumber) || !phoneRegex.test(parentContact)) {
+    if (!phoneRegex.test(parentContact)) {
       return NextResponse.json(
         { error: "Invalid phone number" },
         { status: 400 }
       );
     }
 
-    // Create a new student document
+    const studentId = await generateStudentId(body.region, body.district);
+
     const result = await EoiStudent.create({
       name,
       district,
-      phoneNumber,
       schoolName,
       class: studentClass,
       section,
@@ -71,13 +115,11 @@ export async function POST(request: NextRequest) {
       schoolBranch,
       schoolAddress,
       region,
+      studentId,
     });
 
     return NextResponse.json(
-      {
-        message: "Student registered successfully",
-        student: result,
-      },
+      { message: "Student registered successfully", student: result },
       { status: 201 }
     );
   } catch (error) {

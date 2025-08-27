@@ -57,7 +57,6 @@ interface StudentFormData {
   schoolBranch: string;
   schoolAddress: string;
   district: string;
-  phoneNumber: string;
 }
 
 export default function StudentRegistrationPage() {
@@ -74,7 +73,6 @@ export default function StudentRegistrationPage() {
     schoolBranch: "",
     schoolAddress: "",
     district: "",
-    phoneNumber: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -83,7 +81,7 @@ export default function StudentRegistrationPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+    console.log("Validation data:", studentForm);
     // Basic validation
     if (
       !region ||
@@ -97,8 +95,7 @@ export default function StudentRegistrationPage() {
       !studentForm.parentContact ||
       !studentForm.schoolName ||
       !studentForm.schoolBranch ||
-      !studentForm.schoolAddress ||
-      !studentForm.phoneNumber
+      !studentForm.schoolAddress 
     ) {
       error("All fields are required!", { duration: 3000, position: "top-right" });
       setIsSubmitting(false);
@@ -106,7 +103,7 @@ export default function StudentRegistrationPage() {
     }
 
     const phoneRegex = /^\d{10}$/;
-    if (!phoneRegex.test(studentForm.phoneNumber) || !phoneRegex.test(studentForm.parentContact)) {
+    if (!phoneRegex.test(studentForm.parentContact)) {
       error("Invalid phone number!", { duration: 3000, position: "top-right" });
       setIsSubmitting(false);
       return;
@@ -120,6 +117,8 @@ export default function StudentRegistrationPage() {
       });
       if (res.ok) {
         success("Registration successful!", { position: "top-right", duration: 2000 });
+        const data = await res.json();
+        const studentId = data.student.studentId;
         setStudentForm({
           name: "",
           class: "",
@@ -132,8 +131,15 @@ export default function StudentRegistrationPage() {
           schoolBranch: "",
           schoolAddress: "",
           district: "",
-          phoneNumber: "",
         });
+          await fetch("/api/eoi/student/parent-sms", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              phoneNumber: studentForm.parentContact,   // 👈 parent ka number
+              studentId: studentId // 👈 register ke baad jo ID generate hui
+            }),
+          });
         setRegion("");
       } else {
         const data = await res.json();
@@ -290,10 +296,6 @@ export default function StudentRegistrationPage() {
                   <Label>School Address</Label>
                   <Input value={studentForm.schoolAddress} onChange={(e) => setStudentForm((p) => ({ ...p, schoolAddress: e.target.value }))} />
                 </div>
-                {/* <div className="space-y-2">
-                  <Label>Your Contact Number</Label>
-                  <Input value={studentForm.phoneNumber} onChange={(e) => setStudentForm((p) => ({ ...p, phoneNumber: e.target.value }))} />
-                </div> */}
                 <Button type="submit" disabled={isSubmitting}>
                   {isSubmitting ? "Submitting..." : "Submit Details"}
                 </Button>
