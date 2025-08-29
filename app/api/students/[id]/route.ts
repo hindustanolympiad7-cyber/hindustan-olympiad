@@ -148,7 +148,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     await Student.findByIdAndUpdate(existing._id, { $set: updatedFields }, { new: true });
     
     await ActivityLog.create({
-        schoolId: student?.schoolId,
+        schoolId: student.schoolId,
+        studentId: student.studentId,
         userId: user._id.toString(),
         action: "STUDENT_UPDATE",
         description: `Student ${student.studentId} updated by ${user?.name}`,

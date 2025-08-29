@@ -26,11 +26,11 @@ import SearchAndFilter from "@/components/search-and-filter";
 import { useToast } from "@/hooks/use-toast";
 import { regions, districts } from "@/utils/constants";
 
-type EOIStudent = {
+type IndiviualStudent = {
   _id: string;
   name: string;
   district: string;
-  phoneNumber: string;
+  // phoneNumber: string;
   schoolName: string;
   class: string;
   section: string;
@@ -44,7 +44,7 @@ type EOIStudent = {
 };
 
 type StudentsResponse = {
-  students: EOIStudent[];
+  students: IndiviualStudent[];
   total: number;
   page: number;
   totalPages: number;
@@ -89,7 +89,7 @@ function getDistrictLabels(regionStr: string, districtCodes: string | string[]):
 
 /* -------------------- component -------------------- */
 
-export default function ViewEOIStudents() {
+export default function ViewIndiviualStudents() {
   const { success, error } = useToast();
 
   const [user, setUser] = useState<any>(null);
@@ -140,7 +140,7 @@ export default function ViewEOIStudents() {
     if (!user?._id) return;
     setExportLoading(true);
     try {
-      const res = await fetch(`/api/export/eoi-students?search=${search}`, {
+      const res = await fetch(`/api/export/eoiStudents?search=${search}`, {
         method: "GET",
         headers: {
           authorization: user._id,
@@ -153,7 +153,7 @@ export default function ViewEOIStudents() {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "eoi-students.csv";
+      a.download = "eoiStudents.csv";
       a.click();
     } catch (e: any) {
       error("Something went wrong!", {
@@ -191,9 +191,9 @@ export default function ViewEOIStudents() {
     <Card className="p-0 border-none pb-12">
       <div className="flex justify-between items-center">
         <CardHeader className="p-0 py-4">
-          <CardTitle>EOI Students List</CardTitle>
+          <CardTitle>Indiviual Students List</CardTitle>
           <CardDescription>
-            View all EOI students in the system
+            View all Indiviual students in the system
           </CardDescription>
         </CardHeader>
 
@@ -263,9 +263,10 @@ export default function ViewEOIStudents() {
                   <TableHead>Address</TableHead>
                   <TableHead>Region</TableHead>
                   <TableHead>District</TableHead>
-                  <TableHead>Phone</TableHead>
+                  {/* <TableHead>Phone</TableHead> */}
                   <TableHead>Parent Name</TableHead>
                   <TableHead>Parent Contact</TableHead>
+                  <TableHead>PaymentVerified</TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -278,7 +279,7 @@ export default function ViewEOIStudents() {
                       <TableCell>{stu.class}</TableCell>
                       <TableCell>{stu.section}</TableCell>
                       <TableCell>{stu.gender}</TableCell>
-                      <TableCell>{stu.stream}</TableCell>
+                      <TableCell>{stu.stream ? stu.stream : "Null"}</TableCell>
                       <TableCell>{stu.schoolName}</TableCell>
                       <TableCell>{stu.schoolBranch}</TableCell>
                       <TableCell>{stu.schoolAddress}</TableCell>
@@ -287,9 +288,10 @@ export default function ViewEOIStudents() {
                           stu.region}
                       </TableCell>
                       <TableCell>{getDistrictLabels(stu.region, stu.district)}</TableCell>
-                      <TableCell>{stu.phoneNumber}</TableCell>
+                      {/* <TableCell>{stu.phoneNumber}</TableCell> */}
                       <TableCell>{stu.parentName}</TableCell>
                       <TableCell>{stu.parentContact}</TableCell>
+                      <TableCell>Null</TableCell>
                     </TableRow>
                   ))}
               </TableBody>

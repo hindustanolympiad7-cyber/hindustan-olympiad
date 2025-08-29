@@ -1,9 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/utils/config/dbConfig";
 import { EoiSchool } from "@/utils/models/eoischool";
+import { districts } from "@/utils/constants";
 
 connectDB().catch(console.error);
 
+// Flatten all regions into a single map
+  const districtMap: Record<string, string> = {};
+  Object.values(districts).forEach((regionDistricts: any) => {
+    regionDistricts.forEach((d: any) => {
+      districtMap[d.value] = d.label;
+    });
+  });
 export async function GET(request: NextRequest) {
   try {
     await connectDB();
@@ -16,6 +24,7 @@ export async function GET(request: NextRequest) {
     const district = searchParams.get("district") || "";
 
     const filter: any = {};
+
 
     // 🔍 Search fields for school
     if (query) {
@@ -36,8 +45,16 @@ export async function GET(request: NextRequest) {
       .limit(limit)
       .sort({ createdAt: -1 });
 
+      const transformedSchools = schools.map((s) => {
+        const obj = s.toObject();
+        return {
+          ...obj,
+          district: districtMap[obj.district] || obj.district, // code → label
+        };
+      });
+
     return NextResponse.json({
-      schools,
+      schools: transformedSchools, 
       total,
       page,
       totalPages: Math.ceil(total / limit),
@@ -87,11 +104,13 @@ export async function POST(request: NextRequest) {
       district,
     });
 
+    const districtLabel = districtMap[district] || district;
+
     const result = await EoiSchool.create({
       schoolName,
       schoolCoordinatorContact,
       schoolAddress,
-      district,
+      district: districtLabel,
     });
 
     return NextResponse.json(

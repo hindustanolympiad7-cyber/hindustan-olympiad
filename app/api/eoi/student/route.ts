@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/utils/config/dbConfig";
-import { EoiStudent } from "@/utils/models/eoistudent";
+import { IndiviualStudent } from "@/utils/models/indiviualStudents";
 import { generateStudentId } from "@/utils/models/generateStudentId";
 
 connectDB().catch(console.error);
@@ -30,8 +30,8 @@ export async function GET(request: NextRequest) {
     if (region) filter.region = region;
     if (district) filter.district = district;
 
-    const total = await EoiStudent.countDocuments(filter);
-    const students = await EoiStudent.find(filter)
+    const total = await IndiviualStudent.countDocuments(filter);
+    const students = await IndiviualStudent.find(filter)
       .skip((page - 1) * limit)
       .limit(limit)
       .sort({ createdAt: -1 });
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
 
     const studentId = await generateStudentId(body.region, body.district);
 
-    const result = await EoiStudent.create({
+    const result = await IndiviualStudent.create({
       name,
       district,
       schoolName,

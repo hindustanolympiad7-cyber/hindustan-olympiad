@@ -14,8 +14,8 @@ const tabs = [
     { label: 'View Students', href: '/team/view-students' },
     { label: 'Bulk Add Students', href: '/team/bulk-add-students' },
     { label: 'Bulk Add Schools', href: '/team/bulk-add-school' },    
-    { label: 'Eoi Students', href: '/team/eoi-students' },
-    { label: 'Eoi School', href: '/team/eoi-schools' },
+    { label: 'Indiviual Students', href: '/team/eoi-students' },
+    // { label: 'Eoi School', href: '/team/eoi-schools' },
 ]
 
 export default function TeamLayout({
