@@ -1,5 +1,5 @@
 // utils/generateStudentId.ts
-import { EoiStudent } from "@/utils/models/eoistudent";
+import { IndiviualStudent } from "@/utils/models/indiviualStudents";
 
 const regionCodes: Record<string, string> = {
   "East UP": "1",
@@ -21,7 +21,7 @@ export async function generateStudentId(region: string, district: string) {
   const regionCode = regionCodes[region] || "9";
   const districtCode = districtCodes[region]?.[district] || "99";
 
-  const lastStudent = await EoiStudent.findOne().sort({ createdAt: -1 });
+  const lastStudent = await IndiviualStudent.findOne().sort({ createdAt: -1 });
   let uniqueNumber = "00000001";
 
   if (lastStudent?.studentId) {

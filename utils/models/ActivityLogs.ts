@@ -1,25 +1,27 @@
 import mongoose, { Document, Schema } from "mongoose"
 
 export interface IActivityLog extends Document {
-    schoolId: string,
-    studentId: string,
-    userId: string
-    action: string
-    description: string
+  schoolId?: string   // optional
+  studentId?: string  // optional
+  userId: string
+  action: string
+  description: string
+  createdAt: Date
 }
 
 const activityLogSchema = new Schema<IActivityLog>(
-    {
-        schoolId: { type: String },
-        studentId: { type: String },
-        userId: { type: String },
-        action: { type: String },
-        description: { type: String },
-    },
-    {
-        timestamps: { createdAt: true, updatedAt: false },
-    }
+  {
+    schoolId: { type: String, required: false },
+    studentId: { type: String, required: false },
+    userId: { type: String, required: true },
+    action: { type: String, required: true },
+    description: { type: String, required: true },
+  },
+  {
+    timestamps: { createdAt: true, updatedAt: false }, // sirf createdAt
+  }
 )
 
 export const ActivityLog =
-    mongoose.models.ActivityLog || mongoose.model<IActivityLog>("ActivityLog", activityLogSchema)
+  mongoose.models.ActivityLog ||
+  mongoose.model<IActivityLog>("ActivityLog", activityLogSchema)
