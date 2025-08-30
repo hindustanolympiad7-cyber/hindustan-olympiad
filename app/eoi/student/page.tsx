@@ -184,6 +184,7 @@ export default function StudentRegistrationPage() {
         },
         body: JSON.stringify({
           order: orderId,
+          studentId: studentId,
           transactionId: transactionId,
         }),
       });
