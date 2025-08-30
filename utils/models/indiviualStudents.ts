@@ -16,6 +16,8 @@ export interface IndiviualStudentS extends mongoose.Document {
     schoolAddress: string;
     region: string;
     paymentVerified: boolean;
+    orderId: string;
+    transactionId: string;
 }
 
 const IndiviualStudentSchema = new mongoose.Schema(
@@ -35,6 +37,8 @@ const IndiviualStudentSchema = new mongoose.Schema(
         schoolAddress: { type: String, required: true },
         region: { type: String, required: true },
         paymentVerified: { type: Boolean, default: false },
+        orderId: { type: String, required: true },
+        transactionId: { type: String, required: true },
     },
     { timestamps: true }
 );

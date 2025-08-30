@@ -70,6 +70,8 @@ export async function POST(request: NextRequest) {
       schoolBranch,
       schoolAddress,
       region,
+      orderId,          // 👈 save
+      transactionId,    // 👈 save
     } = body;
 
     if (
@@ -84,7 +86,9 @@ export async function POST(request: NextRequest) {
       !parentContact ||
       !schoolBranch ||
       !schoolAddress ||
-      !region
+      !region || 
+      !orderId ||          // 👈 save
+      !transactionId    // 👈 save
     ) {
       return NextResponse.json(
         { error: "All fields are required" },
@@ -116,6 +120,8 @@ export async function POST(request: NextRequest) {
       schoolAddress,
       region,
       studentId,
+      orderId,          // 👈 save
+      transactionId,    // 👈 save
     });
 
     return NextResponse.json(
