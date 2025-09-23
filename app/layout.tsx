@@ -11,17 +11,17 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Hindustan Olympiad",
-  description: "Get ready for Hindustan Olympiad 2024! Register now and explore the syllabus, exam dates, and more.",
+  description: "Get ready for Hindustan Olympiad 2025! Register now and explore the syllabus, exam dates, and more.",
   keywords: [
     "Hindustan Olympiad",
-    "Hindustan Olympiad 2024",
+    "Hindustan Olympiad 2025",
     "Hindustan Olympiad syllabus",
     "Hindustan Olympiad exam dates",
     "Hindustan Olympiad registration",
     "Hindustan Olympiad results",
     "Hindustan Olympiad online",
   ],
-  authors: [{ name: "Vaibhav Khating" }],
+  authors: [{ name: "Prakash Jha" }],
   openGraph: {
     title: "Hindustan Olympiad – Ignite your competitive spirit!",
     description:
@@ -57,6 +57,9 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-QZ31551262"></script>
+        <script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `

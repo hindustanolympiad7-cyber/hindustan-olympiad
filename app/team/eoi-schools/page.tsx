@@ -66,21 +66,22 @@ function getDistrictLabels(regionStr: string, districtCodes: string | string[]):
 
   const labels = codes.map((code) => {
     const regionList: { value: string; label: string }[] = (districts as any)[regionKey] || [];
-    const foundInRegion = regionList.find((d) => d.value === code);
+    const foundInRegion = regionList.find((d) => d.value === String(code));
     if (foundInRegion) return foundInRegion.label;
 
     // fallback: search in all regions
     for (const rk of Object.keys(districts)) {
       const arr: { value: string; label: string }[] = (districts as any)[rk] || [];
-      const match = arr.find((d) => d.value === code);
+      const match = arr.find((d) => d.value === String(code));
       if (match) return match.label;
     }
 
-    return code;
+    return code; // fallback if not found
   });
 
   return labels.join(", ");
 }
+
 
 /* -------------------- component -------------------- */
 export default function ViewEOISchools() {
@@ -134,7 +135,7 @@ export default function ViewEOISchools() {
     if (!user?._id) return;
     setExportLoading(true);
     try {
-      const res = await fetch(`/api/export/eoi-schools?search=${search}`, {
+      const res = await fetch(`/api/export/eoiSchools?search=${search}`, {
         method: "GET",
         headers: {
           authorization: user._id,

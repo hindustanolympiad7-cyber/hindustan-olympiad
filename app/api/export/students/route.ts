@@ -6,6 +6,7 @@ import { pipeline, Readable } from "stream";
 import { PassThrough } from "stream";
 import { format } from "fast-csv";
 import { connectDB } from "@/utils/config/dbConfig";
+import { regions, districts } from "@/utils/constants";
 
 connectDB().catch(console.error);
 // Required to bypass Next.js' default body handling for streamed responses
@@ -58,6 +59,18 @@ export async function GET(req: NextRequest) {
   const csvStream = format({ headers: true });
   const passthrough = new PassThrough();
 
+  function getRegionLabel(regionValue: string): string {
+    const region = regions.find(r => r.value === regionValue);
+    return region ? region.label : regionValue;
+  }
+
+  function getDistrictLabel(regionValue: string, districtValue: string): string {
+    const regionDistricts = districts[regionValue as keyof typeof districts];
+    if (!regionDistricts) return districtValue;
+    const district = regionDistricts.find(d => d.value === String(districtValue).padStart(2, "0"));
+    return district ? district.label : String(districtValue);
+  }
+
   // Push CSV data to PassThrough stream
   pipeline(csvStream, passthrough, (err) => {
     if (err) console.error("Pipeline failed", err);
@@ -75,14 +88,14 @@ export async function GET(req: NextRequest) {
         stream: student.stream,
         parentName: student.parentName,
         parentContact: student.parentContact,
-        schoolId: student.schoolId,
         schoolName: student.schoolName,
         branch: student.branch,
+        district: getDistrictLabel(student.region, student.district),
+        region: getRegionLabel(student.region),
         city: student.city,
-        district: student.district,
-        region: student.region,
-        pincode: student.pincode,
         paymentVerified: student.paymentVerified ? "Yes" : "No",
+        schoolId: student.schoolId,
+        pincode: student.pincode,
       });
     }
     csvStream.end();

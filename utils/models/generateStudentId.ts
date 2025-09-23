@@ -1,25 +1,40 @@
 // utils/generateStudentId.ts
 import { IndiviualStudent } from "@/utils/models/indiviualStudents";
 
-const regionCodes: Record<string, string> = {
-  "East UP": "1",
-  "West UP": "2",
-  "Bihar": "3",
-  "Jharkhand": "4",
-  "Uttarakhand": "5",
+// const regionCodes: Record<string, string> = {
+//   "East UP": "6",
+//   "West UP": "7",
+//   "Bihar": "8",
+//   "Jharkhand": "9",
+//   "Uttarakhand": "10",
+// };
+
+const districtCodes: Record<string, string> = {
+   kanpur: "601", 
+   lucknow: "602", 
+   gorakhpur: "603", 
+   allahabad: "604", 
+   varanasi: "605", 
+   agra: "701", 
+   aligarh: "702", 
+   bareilly: "703", 
+   meerut: "704", 
+   moradabad: "705",
+   patna: "801", 
+   bhagalpur: "802", 
+   muzaffarpur: "803", 
+   gaya: "804", 
+   purnea: "805",
+   ranchi: "901", 
+   dhanbad: "902", 
+   jamshedpur: "903",
+   haldwani: "101", 
+   dehradun: "102",
 };
 
-const districtCodes: Record<string, Record<string, string>> = {
-  "East UP": { kanpur: "01", lucknow: "02", gorakhpur: "03", allahabad: "04", varanasi: "05" },
-  "West UP": { agra: "01", aligarh: "02", bareilly: "03", meerut: "04", moradabad: "05" },
-  "Bihar": { patna: "01", bhagalpur: "02", muzaffarpur: "03", gaya: "04", purnea: "05" },
-  "Jharkhand": { ranchi: "01", dhanbad: "02", jamshedpur: "03" },
-  "Uttarakhand": { haldwani: "01", dehradun: "02" },
-};
-
-export async function generateStudentId(region: string, district: string) {
-  const regionCode = regionCodes[region] || "9";
-  const districtCode = districtCodes[region]?.[district] || "99";
+export async function generateStudentId(district: string) {
+  // const regionCode = regionCodes[region] || "9";
+  const districtCode = districtCodes[district] || "99";
 
   const lastStudent = await IndiviualStudent.findOne().sort({ createdAt: -1 });
   let uniqueNumber = "00000001";
@@ -29,5 +44,6 @@ export async function generateStudentId(region: string, district: string) {
     uniqueNumber = (lastUnique + 1).toString().padStart(8, "0");
   }
 
-  return `${regionCode}${districtCode}${uniqueNumber}`;
+  // return `${regionCode}${districtCode}${uniqueNumber}`;
+   return `${districtCode}${uniqueNumber}`;
 }

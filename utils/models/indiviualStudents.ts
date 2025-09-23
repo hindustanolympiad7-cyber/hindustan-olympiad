@@ -12,10 +12,15 @@ export interface IndiviualStudentS extends mongoose.Document {
     stream: string;
     parentName: string;
     parentContact: string;
+    parentEmail: String,
     schoolBranch: string;
     schoolAddress: string;
     region: string;
     paymentVerified: boolean;
+    orderId: string;
+    transactionId: string;
+    dateOfBirth: Date; // optional field
+    schoolDistrict: string;
 }
 
 const IndiviualStudentSchema = new mongoose.Schema(
@@ -31,10 +36,15 @@ const IndiviualStudentSchema = new mongoose.Schema(
         stream: { type: String, required: false }, // required only for 11/12
         parentName: { type: String, required: true },
         parentContact: { type: String, required: true },
+        parentEmail: { type: String, required: true },
         schoolBranch: { type: String, required: true },
         schoolAddress: { type: String, required: true },
         region: { type: String, required: true },
+        schoolDistrict: { type: String, required: true },
         paymentVerified: { type: Boolean, default: false },
+        orderId: { type: String, required: true },
+        transactionId: { type: String, required: true },
+        dateOfBirth: { type: Date, required: true }, // optional field
     },
     { timestamps: true }
 );

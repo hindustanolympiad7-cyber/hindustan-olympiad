@@ -103,8 +103,8 @@ function validateSchoolPayload(s: any) {
   }
 
   if (!/^\d+$/.test(String(s.district))) {
-    return "district must be a numeric code like '01', '12'";
-  }
+  return `Invalid district: "${s.district}" (must map to numeric code like '01', '12')`;
+}
 
   return null;
 }

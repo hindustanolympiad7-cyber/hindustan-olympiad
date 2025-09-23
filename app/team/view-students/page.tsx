@@ -310,7 +310,7 @@ export default function ViewStudents() {
                         {(page - 1) * 10 + idx + 1}
                     </TableCell>
                     <TableCell className="font-medium">
-                      <Badge variant="outline" className="border-transparent px-0 chota-font">System added student</Badge>
+                      {/* <Badge variant="outline" className="border-transparent px-0 chota-font">System added student</Badge> */}
                       {student.name}
                     </TableCell>
                     <TableCell>{student.class}</TableCell>

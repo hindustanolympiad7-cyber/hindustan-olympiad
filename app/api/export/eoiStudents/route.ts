@@ -5,6 +5,7 @@ import { pipeline, Readable } from "stream";
 import { PassThrough } from "stream";
 import { format } from "fast-csv";
 import { connectDB } from "@/utils/config/dbConfig";
+import { trace } from "console";
 
 connectDB().catch(console.error);
 // Required to bypass Next.js' default body handling for streamed responses
@@ -62,10 +63,14 @@ export async function GET(req: NextRequest) {
         parentContact: SIndiviualStudent.parentContact,
         schoolName: SIndiviualStudent.schoolName,
         SchoolBranch: SIndiviualStudent.SchoolBranch,
-        district: SIndiviualStudent.district,
-        region: SIndiviualStudent.region,
+        City: SIndiviualStudent.district,
+        Schoolregion: SIndiviualStudent.region,
         schoolAddress: SIndiviualStudent.schoolAddress,
         paymentVerified: SIndiviualStudent.paymentVerified,
+        orderId: SIndiviualStudent.orderId,
+        tractionId: SIndiviualStudent.transactionId,
+        dateOfBirth: SIndiviualStudent.dateOfBirth ? SIndiviualStudent.dateOfBirth.toISOString().split('T')[0] : '',
+        schoolDistrict: SIndiviualStudent.schoolDistrict,
       });
     }
     csvStream.end();

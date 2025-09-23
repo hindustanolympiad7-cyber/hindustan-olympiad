@@ -29,6 +29,7 @@ export default function AddSchoolForm() {
   const { success, error } = useToast();
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
+  const [submitting, setSubmitting] = useState(false); // ✅ new state
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -60,6 +61,9 @@ export default function AddSchoolForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
+  if (submitting) return; // prevent double click
+
+  setSubmitting(true); // ✅ disable button
 
   // Validate empty fields
   for (const [key, value] of Object.entries(formData)) {
@@ -73,6 +77,7 @@ export default function AddSchoolForm() {
         position: "top-right",
         description: `Please fill the ${key} field.`,
       });
+      setSubmitting(false); // ❌ reset on error
       return;
     }
   }
@@ -134,6 +139,7 @@ export default function AddSchoolForm() {
       position: "top-right",
       description: "Please select a region and district.",
     });
+    setSubmitting(false); // ❌ reset on server error
     return;
   }
 
@@ -158,6 +164,8 @@ export default function AddSchoolForm() {
     coordinatorEmail: formData.coordinatorEmail?.trim() || undefined,
     studentsCount: 0,
     paymentVerification: 0,
+    // 👇 yeh add karna hoga
+    addedBy: user._id,
   };
 
   // ensure user is present
@@ -189,6 +197,7 @@ export default function AddSchoolForm() {
     if (!response.ok) {
       const serverMsg = data?.error || data?.message || data?.raw || "Server rejected request";
       error("Server error: " + serverMsg, { description: serverMsg });
+      setSubmitting(false); // ❌ reset on server error
       return;
     }
 
@@ -228,6 +237,7 @@ export default function AddSchoolForm() {
       coordinatorPhone: "",
       coordinatorEmail: "",
     });
+    setSubmitting(false); // ❌ reset on server error
   } catch (e: any) {
     console.error("Network/Unknown error:", e);
     error("Network error", {
@@ -235,6 +245,7 @@ export default function AddSchoolForm() {
       position: "top-right",
       description: e.message || "Please try again",
     });
+    setSubmitting(false); // ❌ reset on server error
   }
 };
 
@@ -439,8 +450,10 @@ export default function AddSchoolForm() {
               />
             </div>
           </div>
-
-          <Button type="submit">Add School</Button>
+          <Button type="submit" disabled={submitting}>
+            {submitting ? "Adding..." : "Add School"}
+          </Button>
+          {/* <Button type="submit">Add School</Button> */}
         </form>
       </CardContent>
     </Card>

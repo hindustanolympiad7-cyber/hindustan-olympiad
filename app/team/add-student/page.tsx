@@ -48,6 +48,7 @@ type FormData = StudentFields & {
   district: string;
   region: string;
   pincode: string;
+  addedBy?: string; // optional, will be set in backend
 };
 
 export default function AddStudentForm() {
@@ -79,6 +80,7 @@ export default function AddStudentForm() {
         region: school.region,
         city: school.city,
         pincode: school.pincode,
+        addedBy: JSON.parse(localStorage.getItem("user") || "{}")._id || "",
       }))
     } else {
       setFormData((prev) => ({

@@ -18,6 +18,7 @@ export interface IStudent extends mongoose.Document {
   pincode: string;
   paymentVerified: boolean;
   paymentVerifiedBy: string;
+  addedBy: mongoose.Types.ObjectId;  // 👈 reference to TeamMember who added the student
 }
 
 
@@ -40,6 +41,7 @@ const studentSchema = new mongoose.Schema(
     pincode: String,
     paymentVerified: { type: Boolean, default: false },
     paymentVerifiedBy: String,
+    addedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'TeamMember', required: true }
   },
   { timestamps: true }
 );

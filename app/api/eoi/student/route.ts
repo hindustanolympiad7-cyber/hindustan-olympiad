@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
       ];
     }
 
-    if (region) filter.region = region;
+    // if (region) filter.region = region;
     if (district) filter.district = district;
 
     const total = await IndiviualStudent.countDocuments(filter);
@@ -67,9 +67,14 @@ export async function POST(request: NextRequest) {
       stream,
       parentName,
       parentContact,
+      parentEmail,
       schoolBranch,
       schoolAddress,
+      orderId,          // 👈 save
+      transactionId,    // 👈 save
+      dateOfBirth,     // 👈 save
       region,
+      schoolDistrict
     } = body;
 
     if (
@@ -82,9 +87,14 @@ export async function POST(request: NextRequest) {
       (["11", "12"].includes(studentClass) && !stream) ||
       !parentName ||
       !parentContact ||
+      !parentEmail ||
       !schoolBranch ||
       !schoolAddress ||
-      !region
+      !orderId ||          // 👈 save
+      !transactionId ||    // 👈 save
+      !dateOfBirth ||
+      !region ||
+      !schoolDistrict
     ) {
       return NextResponse.json(
         { error: "All fields are required" },
@@ -100,7 +110,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const studentId = await generateStudentId(body.region, body.district);
+    const studentId = await generateStudentId(body.district);
 
     const result = await IndiviualStudent.create({
       name,
@@ -112,10 +122,16 @@ export async function POST(request: NextRequest) {
       stream: ["11", "12"].includes(studentClass) ? stream : "",
       parentName,
       parentContact,
+      parentEmail,
       schoolBranch,
       schoolAddress,
-      region,
       studentId,
+      orderId,          // 👈 save
+      transactionId,    // 👈 save
+      paymentVerified: false, // default to false
+      dateOfBirth,     // 👈 save
+      region,
+      schoolDistrict,
     });
 
     return NextResponse.json(

@@ -26,30 +26,19 @@ import SearchAndFilter from "@/components/search-and-filter";
 import { useToast } from "@/hooks/use-toast";
 import { regions, districts } from "@/utils/constants";
 
-type IndiviualStudent = {
-  _id: string;
-  name: string;
-  district: string;
-  // phoneNumber: string;
-  schoolName: string;
-  class: string;
-  section: string;
-  gender: string;
-  stream: string;
-  parentName: string;
-  parentContact: string;
-  parentEmail: String,
-  schoolBranch: string;
-  schoolAddress: string;
-  paymentVerified: boolean;
-  region: string;
-  schoolDistrict: string;
-  dateOfBirth: Date;
-
+type EoiStudent = {
+    _id: string;
+name: string;
+region: string;
+district: string;
+phoneNumber: string;
+schoolName: string;
+schoolCoordinatorContact: string;
+class: string;
 };
 
 type StudentsResponse = {
-  students: IndiviualStudent[];
+  students: EoiStudent[];
   total: number;
   page: number;
   totalPages: number;
@@ -124,7 +113,7 @@ export default function ViewIndiviualStudents() {
 
     try {
       const response = await axios.get<StudentsResponse>(
-        `/api/eoi/student?page=${p}&limit=10&query=${search}&region=${filters.region}&district=${filters.district}`,
+        `/api/eoi/oldeoistudents?page=${p}&limit=10&query=${search}&region=${filters.region}&district=${filters.district}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -145,7 +134,7 @@ export default function ViewIndiviualStudents() {
     if (!user?._id) return;
     setExportLoading(true);
     try {
-      const res = await fetch(`/api/export/eoiStudents?search=${search}`, {
+      const res = await fetch(`/api/export/oldeoistudent?search=${search}`, {
         method: "GET",
         headers: {
           authorization: user._id,
@@ -196,7 +185,7 @@ export default function ViewIndiviualStudents() {
     <Card className="p-0 border-none pb-12">
       <div className="flex justify-between items-center">
         <CardHeader className="p-0 py-4">
-          <CardTitle>Indiviual Students List</CardTitle>
+          <CardTitle>Old EOI Student</CardTitle>
           <CardDescription>
             View all Indiviual students in the system
           </CardDescription>
@@ -257,24 +246,14 @@ export default function ViewIndiviualStudents() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>SR. No.</TableHead>
+                    <TableHead>SR No.</TableHead>
                   <TableHead>Name</TableHead>
                   <TableHead>Class</TableHead>
-                  <TableHead>Section</TableHead>
-                  <TableHead>Gender</TableHead>                  
-                  <TableHead>DOB</TableHead>
-                  <TableHead>Stream</TableHead>
-                  <TableHead>School</TableHead>
-                  <TableHead>Branch</TableHead>
-                  <TableHead>Address</TableHead>
-                  <TableHead>City</TableHead>
-                  {/* <TableHead>Phone</TableHead> */}
-                  <TableHead>Parent Name</TableHead>
-                  <TableHead>Parent Contact</TableHead>
-                  <TableHead>Email Id</TableHead>
-                  <TableHead>PaymentVerified</TableHead>
-                  <TableHead>School Region</TableHead>                  
-                  <TableHead>School District</TableHead>
+                  <TableHead>School Name</TableHead>
+                  <TableHead>School Coordinator Contact</TableHead>
+                  <TableHead>Phone Number</TableHead>
+                  <TableHead>Region</TableHead>
+                  <TableHead>District</TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -285,25 +264,14 @@ export default function ViewIndiviualStudents() {
                       <TableCell>{(page - 1) * 10 + idx + 1}</TableCell>
                       <TableCell>{stu.name}</TableCell>
                       <TableCell>{stu.class}</TableCell>
-                      <TableCell>{stu.section}</TableCell>
-                      <TableCell>{stu.gender}</TableCell>
-                      <TableCell>{stu.dateOfBirth ? new Date(stu.dateOfBirth).toLocaleDateString() : "N/A"}</TableCell>
-                      <TableCell>{stu.stream ? stu.stream : "Null"}</TableCell>
                       <TableCell>{stu.schoolName}</TableCell>
-                      <TableCell>{stu.schoolBranch}</TableCell>
-                      <TableCell>{stu.schoolAddress}</TableCell>
-                      {/* <TableCell>
+                      <TableCell>{stu.schoolCoordinatorContact}</TableCell>
+                      <TableCell>{stu.phoneNumber}</TableCell>
+                      <TableCell>
                         {regions.find((r) => r.value === normalizeRegion(stu.region))?.label ||
                           stu.region}
-                      </TableCell> */}
+                      </TableCell>
                       <TableCell>{getDistrictLabels(stu.region, stu.district)}</TableCell>
-                      {/* <TableCell>{stu.phoneNumber}</TableCell> */}
-                      <TableCell>{stu.parentName}</TableCell>
-                      <TableCell>{stu.parentContact}</TableCell>
-                      <TableCell>{stu.parentEmail}</TableCell>
-                      <TableCell>{stu.paymentVerified ? "Yes" : "No"}</TableCell>
-                      <TableCell>{stu.region}</TableCell>
-                      <TableCell>{stu.schoolDistrict}</TableCell>
                     </TableRow>
                   ))}
               </TableBody>
