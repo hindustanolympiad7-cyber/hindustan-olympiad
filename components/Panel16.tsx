@@ -39,18 +39,34 @@ const Panel16: React.FC = () => {
       transition={{ duration: 0.6 }}
       id="participate"
     >
-      {/* Initial Heading & CTA */}
-      {step === "initial" && (
-        <>
-          <motion.h2
-            className="text-[1.75rem] sm:text-2xl md:text-[2.4rem] font-bold text-[#B2252A] text-center whitespace-normal break-words"
-            style={headingStyle}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+      <motion.h2
+        className="text-[1.75rem] sm:text-2xl md:text-[2.4rem] font-bold text-[#B2252A] text-center whitespace-normal break-words"
+        style={headingStyle}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
+        Want to Register for Hindustan Olympiad 2025?
+      </motion.h2>
+        <div className="flex flex-col md:flex-row gap-4 mt-6">
+          <button
+            onClick={chooseSchool}
+            className="bg-[#B2252A] text-white font-bold text-base sm:text-lg px-6 py-3 rounded-md shadow transition hover:bg-[#861B1D]"
+            style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            Want to participate in Hindustan Olympiad 2025?
-          </motion.h2>
+            Register as school
+          </button>
+          <button
+            onClick={chooseStudent}
+            className="bg-[#B2252A] text-white font-bold text-base sm:text-lg px-6 py-3 rounded-md shadow transition hover:bg-[#861B1D]"
+            style={{ fontFamily: "Poppins, sans-serif" }}
+          >
+            Register as individual Student 
+          </button>
+        </div>
+      {/* Initial Heading & CTA */}
+      {/* {step === "initial" && (
+        <>
           <motion.button
             onClick={handleCTA}
             className="mt-6 bg-[#B2252A] text-white font-bold text-base sm:text-lg px-8 py-3 rounded-md shadow transition hover:bg-[#861B1D]"
@@ -59,10 +75,9 @@ const Panel16: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            I am interested
           </motion.button>
         </>
-      )}
+      )} */}
 
       {/* Choose User Type */}
       {step === "choose" && (

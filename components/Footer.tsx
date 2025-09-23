@@ -111,6 +111,16 @@ const Footer: React.FC = () => (
         >
           ↑
         </button>
+        <a
+          href="/faq" // yaha apna FAQ ka URL daal do
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="FAQ"
+          title="FAQ"
+          className="fixed bottom-4 right-1-5 w-10 h-10 bg-green-600 hover:bg-green-700 text-white rounded-full flex items-center justify-center text-lg shadow-md"
+        >
+          ?
+        </a>
       </footer>
 
     </motion.div>
